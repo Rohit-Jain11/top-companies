@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #F0F2F5;
+  --primary: #D92B42;
+  --primary-foreground: #ffffff;
+  --secondary: #555555;
+  --background-gray: #F8F8F8;
+
+  --shadow-card: 0 40px 88px rgb(31 42 60 / 0.1);
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --primary: #3b82f6;
+  --primary-foreground: #0a0a0a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-background-gray: var(--background-gray);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-fraunces: var(--font-fraunces);
+
+  --shadow-card: var(--shadow-card);
+}
+
+@utility container-8xl {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 0.45);
+  box-shadow: 0 34px 80px rgba(31, 42, 60, .1), inset 6px 6px 16px rgba(0, 0, 0, .03), inset 0 -4px 1px rgba(255, 255, 255, .2);
+}
+@utility glass2 {
+  background: rgba(240, 242, 245, 0.10);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: inset 6px 6px 16px rgba(0, 0, 0, .03), inset 0 -4px 1px rgba(255, 255, 255, .2);
+}
+@utility bottomGlass {
+  background: rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 -6px 12px rgba(0, 0, 0, .025);
+}
+@utility innerGlass {
+  background: rgba(232, 230, 221, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--background-gray);
+  box-shadow: inset 8px -4px 8px rgba(0, 0, 0, 0.02);
+}
+@utility innerGlass2 {
+  background: rgba(240, 242, 245, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: inset 8px 4px 8px rgba(0, 0, 0, 0.02);
+}
+@utility blogGlass {
+  background: rgba(240, 242, 245, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.02), inset 0px 0px 8px rgba(255, 255, 255, 0.4);
+}
+
+body {
+  /* --font-geist-sans is scoped to <body> via layout.tsx's className, so
+     font-sans must be applied here too (not on <html>) - see the same fix
+     in apps/admin/src/app/globals.css for why. */
+  @apply bg-background text-foreground font-sans antialiased;
+}
+
+.prose-content :where(p):not(:last-child) {
+  margin-bottom: 1rem;
+}
+.prose-content :where(h2) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+}
+.prose-content :where(h3) {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+}
+.prose-content :where(a) {
+  color: var(--primary);
+  text-underline-offset: 2px;
+  text-decoration: underline;
+}
+.prose-content :where(ul) {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-content :where(ol) {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+
+@media screen and (min-width: 1451px) and (max-width: 1750px){
+  .categories_shape{
+    left: -9%;
+  }
+}
+@media screen and (min-width: 1280px) and (max-width: 1450px){
+  .categories_shape{
+    left: -13%;
+  }
+}

@@ -1,0 +1,16 @@
+node_modules/
+.claude
+.env
+.env.local
+.env.*.local
+apps/api/uploads/*
+!apps/api/uploads/.gitkeep
+apps/api/dist/
+apps/admin/.next/
+apps/admin/out/
+apps/web/.next/
+apps/web/out/
+*.log
+.DS_Store
+Thumbs.db
+.vscode/

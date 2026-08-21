@@ -1,0 +1,32 @@
+<svg width="528" height="528" viewBox="0 0 528 528" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 132 528)" fill="#D92B42" fill-opacity="0.1"/>
+<rect width="132" height="132" transform="matrix(1 0 0 -1 264 528)" fill="#D92B42" fill-opacity="0.1"/>
+<g opacity="0.5">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 0 396)" fill="#F8F8F8"/>
+</g>
+<g opacity="0.7">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 132 396)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<g opacity="0.5">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 264 396)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<g opacity="0.3">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 396 396)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<rect width="132" height="132" transform="matrix(1 0 0 -1 0 264)" fill="#D92B42" fill-opacity="0.1"/>
+<g opacity="0.7">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 132 264)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<g opacity="0.5">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 264 264)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<g opacity="0.1">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 396 264)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<g opacity="0.5">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 132 132)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+<g opacity="0.1">
+<rect width="132" height="132" transform="matrix(1 0 0 -1 264 132)" fill="#D92B42" fill-opacity="0.1"/>
+</g>
+</svg>
