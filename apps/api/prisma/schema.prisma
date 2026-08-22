@@ -305,6 +305,7 @@ model Settings {
   phone        String?  @db.VarChar(50)
   address      String?  @db.Text
   socialLinks  Json?
+  homeFaqs     Json?
   // Visible body copy for the public About page (separate from the SEO meta
   // tags in SeoMeta - this is the actual on-page content, rich text).
   aboutContent String?  @db.LongText

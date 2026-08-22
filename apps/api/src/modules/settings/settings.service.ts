@@ -23,9 +23,15 @@ export const updateSettings = async (input: UpdateSettingsInput, adminId: number
         id: SETTINGS_ID,
         ...input.general,
         socialLinks: input.general.socialLinks as Prisma.InputJsonValue,
+        homeFaqs: input.general.homeFaqs as Prisma.InputJsonValue,
         updatedById: adminId,
       },
-      update: { ...input.general, socialLinks: input.general.socialLinks as Prisma.InputJsonValue, updatedById: adminId },
+      update: {
+        ...input.general,
+        socialLinks: input.general.socialLinks as Prisma.InputJsonValue,
+        homeFaqs: input.general.homeFaqs as Prisma.InputJsonValue,
+        updatedById: adminId,
+      },
     }),
     prisma.seoMeta.upsert({
       where: { page: "HOME" },

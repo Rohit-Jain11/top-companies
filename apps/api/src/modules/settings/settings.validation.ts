@@ -32,6 +32,16 @@ export const updateSettingsSchema = z.object({
       .partial()
       .optional()
       .nullable(),
+    homeFaqs: z
+      .array(
+        z.object({
+          question: z.string().min(1).max(500),
+          answer: z.string().min(1),
+          sortOrder: z.number().default(0),
+        })
+      )
+      .optional()
+      .nullable(),
   }),
   seo: z.object({
     home: seoSchema,

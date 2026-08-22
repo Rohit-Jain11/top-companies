@@ -21,8 +21,9 @@ import {
 import { AuditFooter } from "@/components/shared/audit-footer";
 import { ImageUpload } from "@/components/shared/image-upload";
 import { RichTextEditor } from "@/components/shared/rich-text-editor";
+import { FaqRepeater } from "@/components/shared/faq-repeater";
 import { SeoAccordion } from "@/components/shared/seo-accordion";
-import { settingsFormSchema, SettingsFormValues } from "@/lib/schemas/settings";
+import { settingsFormSchema, SettingsFormInput, SettingsFormValues } from "@/lib/schemas/settings";
 import { useSettingsQuery, useUpdateSettings } from "@/lib/queries/settings";
 import { getErrorMessage } from "@/lib/api-client";
 
@@ -36,7 +37,7 @@ const EMPTY_SEO = {
   robots: "index, follow",
 };
 
-const DEFAULT_VALUES: SettingsFormValues = {
+const DEFAULT_VALUES: SettingsFormInput = {
   general: {
     siteName: "",
     logo: "",
@@ -46,6 +47,7 @@ const DEFAULT_VALUES: SettingsFormValues = {
     address: "",
     aboutContent: "",
     socialLinks: { facebook: "", twitter: "", linkedin: "", instagram: "", youtube: "" },
+    homeFaqs: [],
   },
   seo: { home: EMPTY_SEO, about: EMPTY_SEO },
 };
@@ -54,7 +56,7 @@ export default function SettingsPage() {
   const { data, isLoading } = useSettingsQuery();
   const updateSettings = useUpdateSettings();
 
-  const form = useForm<SettingsFormValues>({
+  const form = useForm<SettingsFormInput, unknown, SettingsFormValues>({
     resolver: zodResolver(settingsFormSchema),
     defaultValues: DEFAULT_VALUES,
   });
@@ -77,6 +79,7 @@ export default function SettingsPage() {
             instagram: data.general.socialLinks?.instagram ?? "",
             youtube: data.general.socialLinks?.youtube ?? "",
           },
+          homeFaqs: Array.isArray(data.general.homeFaqs) ? data.general.homeFaqs : [],
         },
         seo: {
           home: { ...EMPTY_SEO, ...data.seo.home },
@@ -118,6 +121,7 @@ export default function SettingsPage() {
             <TabsList>
               <TabsTrigger value="general">General</TabsTrigger>
               <TabsTrigger value="home-seo">Home Page SEO</TabsTrigger>
+              <TabsTrigger value="home-faq">Home FAQ</TabsTrigger>
               <TabsTrigger value="about">About Page</TabsTrigger>
             </TabsList>
 
@@ -231,6 +235,22 @@ export default function SettingsPage() {
               <Card>
                 <CardContent className="pt-6">
                   <SeoAccordion prefix="seo.home." title="Home Page SEO" />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="home-faq">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-medium">Home Page FAQs</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Manage frequently asked questions displayed on the home page.
+                      </p>
+                    </div>
+                    <FaqRepeater name="general.homeFaqs" />
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>

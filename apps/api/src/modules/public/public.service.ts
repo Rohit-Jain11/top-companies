@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NotFoundError } from "@/lib/errors";
 import { currentSpotlightCategoryId } from "@/crons/categoryCron";
 import { env } from "@/config/env";
+import { attachAuditNames } from "@/lib/audit";
 
 const activeFilter = { status: "ACTIVE" as const, deletedAt: null };
 
@@ -230,19 +231,11 @@ export const getSpotlightCompanies = async () => {
 };
 
 export const getPublicAbout = async () => {
-  const [settings, aboutSeo] = await Promise.all([
+  const [general, home, about] = await Promise.all([
     prisma.settings.upsert({ where: { id: 1 }, create: { id: 1 }, update: {} }),
+    prisma.seoMeta.upsert({ where: { page: "HOME" }, create: { page: "HOME" }, update: {} }),
     prisma.seoMeta.upsert({ where: { page: "ABOUT" }, create: { page: "ABOUT" }, update: {} }),
   ]);
 
-  return {
-    general: {
-      contactEmail: settings.contactEmail,
-      phone: settings.phone,
-      address: settings.address,
-      socialLinks: settings.socialLinks,
-    },
-    seo: aboutSeo,
-    aboutContent: settings.aboutContent,
-  };
+  return { general: await attachAuditNames(general), seo: { home, about } };
 };

@@ -10,6 +10,12 @@ const seoSchema = z.object({
   robots: z.string().max(100).optional().nullable(),
 });
 
+export const homeFaqSchema = z.object({
+  question: z.string().min(1, "Question is required").max(500),
+  answer: z.string().min(1, "Answer is required"),
+  sortOrder: z.number().default(0),
+});
+
 export const settingsFormSchema = z.object({
   general: z.object({
     siteName: z.string().max(200).optional().nullable(),
@@ -29,6 +35,7 @@ export const settingsFormSchema = z.object({
       })
       .optional()
       .nullable(),
+    homeFaqs: z.array(homeFaqSchema).default([]),
   }),
   seo: z.object({
     home: seoSchema,
@@ -36,4 +43,5 @@ export const settingsFormSchema = z.object({
   }),
 });
 
-export type SettingsFormValues = z.infer<typeof settingsFormSchema>;
+export type SettingsFormInput = z.input<typeof settingsFormSchema>;
+export type SettingsFormValues = z.output<typeof settingsFormSchema>;

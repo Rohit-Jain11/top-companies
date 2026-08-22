@@ -206,6 +206,7 @@ export interface SettingsData {
       instagram?: string | null;
       youtube?: string | null;
     } | null;
+    homeFaqs?: { question: string; answer: string; sortOrder: number }[] | null;
   };
   seo: {
     home: SeoMetaFields;
