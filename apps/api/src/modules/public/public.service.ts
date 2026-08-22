@@ -214,6 +214,8 @@ export const getSpotlightCompanies = async () => {
       deletedAt: null,
       categories: { some: { categoryId: category.id } },
     },
+    orderBy: [{ score: "desc" }, { id: "desc" }],
+    take: 5,
     include: {
       detail: true,
       country: true,
