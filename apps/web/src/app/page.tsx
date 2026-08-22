@@ -4,7 +4,7 @@ import { ArrowRight, ClipboardCheck, Gauge, RefreshCw, ScanSearch, ShieldCheck, 
 import { CategoryCard } from "@/components/category-card";
 import { CompanyRankCard } from "@/components/company-rank-card";
 import { StatsBar } from "@/components/stats-bar";
-import { getHomeData } from "@/lib/api";
+import { getHomeData, getTopCompaniesData, getPublicAbout } from "@/lib/api";
 import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { FaqAccordion } from "@/components/faq-accordion";
@@ -12,6 +12,7 @@ import HowWeRank from "@/components/howWeRank";
 
 export async function generateMetadata(): Promise<Metadata> {
   const home = await getHomeData();
+
   return buildMetadata({
     seo: home.seo,
     path: "/",
@@ -22,49 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
     siteName: home.general.siteName ?? "Top Companies",
   });
 }
-
-const TOP_COMPANIES = [
-  {
-    rank: "01",
-    initials: "NA",
-    name: "NipsApp Game Studios",
-    location: "INDIA · 250-999",
-    status: "Excellent",
-    bg: "#F5B840",
-  },
-  {
-    rank: "02",
-    initials: "HI",
-    name: "Hyperlink InfoSystem",
-    location: "INDIA · 250-999",
-    status: "Proven",
-    bg: "#ED6A3A",
-  },
-  {
-    rank: "03",
-    initials: "AI",
-    name: "Appinventiv",
-    location: "UNITED STATES · 1000+",
-    status: "Strong",
-    bg: "#3AA37A",
-  },
-  {
-    rank: "04",
-    initials: "WT",
-    name: "WillowTree",
-    location: "UNITED STATES · 1000+",
-    status: "High",
-    bg: "#D4A017",
-  },
-  {
-    rank: "05",
-    initials: "TR",
-    name: "ThirdRock Techkno",
-    location: "INDIA · 50-249",
-    status: "Excellent",
-    bg: "#7C5CFF",
-  },
-];
 
 const blogs = [
   {
@@ -93,61 +51,26 @@ const blogs = [
   },
 ];
 
-const HOW_IT_WORKS = [
-  {
-    icon: ScanSearch,
-    title: "We source the companies",
-    body: "Agencies, studios and dev shops are added to the directory - either by application or nomination from clients who've worked with them.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Our team reviews the work",
-    body: "Portfolios, delivery history and client feedback are checked by hand before a company earns a place in any category.",
-  },
-  {
-    icon: Gauge,
-    title: "Each company gets a score",
-    body: "Companies are scored 0-10 on expertise, delivery track record and client satisfaction - not on how much they pay us.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Rankings stay current",
-    body: "As new companies are reviewed and existing ones are re-checked, category rankings are re-ordered to reflect it.",
-  },
-];
-
-const HOME_FAQS = [
-  {
-    question: "Who decides the ranking?",
-    answer:
-      "Our rankings are based on a combination of expertise, delivery track record, portfolio quality, and client satisfaction. Companies earn their position based on their performance rather than paid placement.",
-  },
-  {
-    question: "How fresh is the data?",
-    answer:
-      "Our data is regularly reviewed and updated. As new companies are reviewed and existing companies are re-checked, rankings are updated to reflect the latest available information.",
-  },
-  {
-    question: "How do I get listed?",
-    answer:
-      "Companies can be added to our directory through an application or nomination. Our team reviews the company and its available reputation, portfolio, and delivery signals before adding it to the relevant categories.",
-  },
-  {
-    question: "Does browsing cost anything?",
-    answer:
-      "No. Browsing the directory, exploring categories, and viewing company rankings is completely free.",
-  },
-];
-
-const WHY_US = [
-  { icon: ShieldCheck, text: "No pay-to-rank - placement is earned, not purchased" },
-  { icon: Users, text: "Reviewed by a real team, not just scraped and sorted" },
-  { icon: Sparkles, text: "Categories and scores are kept up to date as companies are re-reviewed" },
-];
-
 export default async function HomePage() {
   const home = await getHomeData();
+  const faqs = await getPublicAbout();
+  const homeCompany = await getTopCompaniesData();
   const spotlight = home.spotlightCategory;
+
+  const home_faqs = faqs?.general?.homeFaqs;
+
+  const getScoreLabel = (score: number | null) => {
+    if (score === null) return "";
+
+    if (score >= 9) return "Excellent";
+    if (score >= 7.5) return "Proven";
+    if (score >= 6) return "Strong";
+
+    return "High";
+  };
+
+  const INITIAL_BG_COLORS = ["#F5B840", "#ED6A3A", "#3AA37A", "#D4A017", "#7C5CFF", "#E58B6B", "#72C7C0", "#B39DDB",];
+  
 
   return (
     <>
@@ -187,19 +110,35 @@ export default async function HomePage() {
           </div>
           <div className="rounded-[25px] max-w-304 mx-auto mt-8 xl:mt-20 p-5 xl:p-5.5 glass">
             <div className="flex flex-wrap gap-2 items-center justify-between border-b border-b-border pb-3.5 mb-4.5">
-              <span className="text-sm leading-5 text-secondary uppercase inline-block">/ TOP WEB DEVELOPMENT</span>
-              <span className="text-sm leading-5 text-[#178A4C] bg-[#E7F5EC] rounded-[100px] inline-block py-1 pr-2.5 pl-5.5 relative before:content-[''] before:absolute before:left-2.5 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-[#178A4C]">Live index · Updated every 6 hrs</span>
+              <span className="text-sm leading-5 text-secondary uppercase inline-block">/ TOP {homeCompany?.category?.name}</span>
+              <span className="text-sm leading-5 text-[#178A4C] bg-[#E7F5EC] rounded-[100px] inline-block py-1 pr-2.5 pl-5.5 relative before:content-[''] before:absolute before:left-2.5 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-[#178A4C]">Live index · Updated every {homeCompany?.updateIntervalHours} hrs</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5">
-              {TOP_COMPANIES.map((company) => (
-                <div key={company.rank} className="rounded-[10px] p-5 innerGlass">
-                  <span className="block text-base leading-6.25 font-medium font-fraunces text-secondary">{company.rank}</span>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-foreground text-sm leading-5.5 font-bold my-3" style={{ backgroundColor: company.bg }}>{company.initials}</div>
-                  <h5 className="text-foreground text-sm leading-5 font-semibold">{company.name}</h5>
-                  <p className="text-xs leading-4 text-secondary">{company.location}</p>
-                  <span className="font-fraunces inline-block text-base leading-6.5 text-primary mt-2.5 italic font-normal">{company.status}</span>
-                </div>
-              ))}
+              {homeCompany?.companies?.map((company, index) => {
+                const rank = String(index + 1).padStart(2, "0");
+
+                const initials = company.name
+                  .replace(/-/g, " ")
+                  .split(/\s+/)
+                  .filter(Boolean)
+                  .slice(0, 2)
+                  .map((word) => word[0])
+                  .join("")
+                  .toUpperCase();
+
+                const status = getScoreLabel(company.score);
+                const initialsBg = INITIAL_BG_COLORS[index % INITIAL_BG_COLORS.length];
+
+                return (
+                  <div key={company.id} className="rounded-[10px] p-5 innerGlass">
+                    <span className="block text-base leading-6.25 font-medium font-fraunces text-secondary">{rank}</span>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-foreground text-sm leading-5.5 font-bold my-3" style={{ backgroundColor:  initialsBg}}>{initials}</div>
+                    <h5 className="text-foreground text-sm leading-5 font-semibold">{company.name}</h5>
+                    <p className="text-xs leading-4 text-secondary flex items-center gap-1 flex-wrap">{company?.country?.name} <span className="block -translate-y-0.5">.</span> {company.employeeRange?.title}</p>
+                    <span className="font-fraunces inline-block text-base leading-6.5 text-primary mt-2.5 italic font-normal">{status}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -362,7 +301,7 @@ export default async function HomePage() {
               <h2 className="font-fraunces text-foreground text-[32px] xl:text-[54px] leading-10 xl:leading-14.25 tracking-[-1.62px] font-normal mt-2 xl:mt-4">Before you <span className="text-primary font-light italic inline-block">ask</span></h2>
             </div>
             <div className="max-w-full w-full lg:max-w-[calc(100%-360px)] lg:basis-[calc(100%-360px)] lg:shrink-0 lg:pl-15 mt-6 lg:mt-0">
-              <FaqAccordion faqs={HOME_FAQS} />
+              <FaqAccordion faqs={home_faqs} />
             </div>
           </div>
         </div>

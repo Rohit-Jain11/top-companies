@@ -1,6 +1,7 @@
-import { AboutData, HomeData, PublicCategoryDetail, PublicCategorySummary } from "@/lib/types";
+import { AboutData, HomeData, PublicCategoryDetail, PublicCategorySummary, HomeTopCompaniesData } from "@/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+
 
 // Public pages are SEO-facing but backed by admin-edited data, not
 // request-time state - ISR (revalidate every 60s) is the right fit rather
@@ -25,6 +26,12 @@ async function fetchPublicApi<T>(path: string): Promise<T | null> {
 export const getHomeData = async (): Promise<HomeData> => {
   const data = await fetchPublicApi<HomeData>("/public/home");
   if (!data) throw new Error("Failed to load home data");
+  return data;
+};
+
+export const getTopCompaniesData = async (): Promise<HomeTopCompaniesData> => {
+  const data = await fetchPublicApi<HomeTopCompaniesData>("/public/spotlight-companies");
+  if (!data) throw new Error("Failed to load top companies data");
   return data;
 };
 

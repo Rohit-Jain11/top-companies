@@ -82,6 +82,17 @@ export interface SpotlightCategory {
   companies: PublicCompany[];
 }
 
+export interface HomeTopCompaniesCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+export interface HomeTopCompaniesData {
+  category: HomeTopCompaniesCategory;
+  companies: PublicCompany[];
+  updateIntervalHours: number;
+}
+
 export interface HomeData {
   general: { siteName: string | null; logo: string | null; socialLinks: SocialLinks | null };
   seo: SeoBlock;
@@ -91,12 +102,19 @@ export interface HomeData {
   spotlightCategory: SpotlightCategory | null;
 }
 
+export interface homeFaqData {
+  question: string;
+  answer: string;
+  sortOrder: number | null;
+}
+
 export interface AboutData {
   general: {
     contactEmail: string | null;
     phone: string | null;
     address: string | null;
     socialLinks: SocialLinks | null;
+    homeFaqs: homeFaqData[];
   };
   seo: SeoBlock;
   aboutContent: string | null;
