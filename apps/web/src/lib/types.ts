@@ -119,3 +119,50 @@ export interface AboutData {
   seo: SeoBlock;
   aboutContent: string | null;
 }
+
+export interface BlogCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+
+export interface Blog {
+  id: number;
+  title: string;
+  content: string | null;
+  slug: string;
+  image: string | null;
+  status: string;
+  publishedAt: string | null;
+  blogCategoryId: number;
+  createdAt: string;
+  updatedAt: string;
+  blogCategory?: BlogCategory;
+}
+export interface BlogMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+export interface BlogListData {
+  data: Blog[];
+  meta: BlogMeta;
+}
+export interface LatestBlog {
+  id: number;
+  title: string;
+  content: string | null;
+  slug: string;
+  image: string | null;
+  status: string;
+  publishedAt: string | null;
+  blogCategoryId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface AllBlogData {
+  blogs: BlogListData;
+  latestBlogs: LatestBlog[];
+}
