@@ -9,7 +9,7 @@ export const useBlogCategoriesQuery = (params: ListParams) =>
   useQuery({
     queryKey: [KEY, params],
     queryFn: async () => {
-      const res = await api.get<ApiListResponse<BlogCategory>>("/admin/blog-categories", {
+      const res = await api.get<ApiListResponse<BlogCategory>>("/public/blog-categories", {
         params: toQueryParams(params),
       });
       return res.data;
@@ -20,7 +20,7 @@ export const useAllBlogCategoriesQuery = () =>
   useQuery({
     queryKey: [KEY, "all"],
     queryFn: async () => {
-      const res = await api.get<ApiListResponse<BlogCategory>>("/admin/blog-categories", {
+      const res = await api.get<ApiListResponse<BlogCategory>>("/public/blog-categories", {
         params: { limit: 200, status: "ACTIVE" },
       });
       return res.data.data;

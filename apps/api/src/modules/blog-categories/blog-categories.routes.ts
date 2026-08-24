@@ -13,7 +13,6 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get("/", blogCategoriesController.list);
 router.post("/bulk-delete", validate(bulkDeleteBlogCategoriesSchema), blogCategoriesController.bulkDelete);
 router.post("/bulk-restore", validate(bulkDeleteBlogCategoriesSchema), blogCategoriesController.bulkRestore);
 router.post(

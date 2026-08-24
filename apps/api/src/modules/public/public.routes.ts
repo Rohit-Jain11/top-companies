@@ -3,6 +3,8 @@ import { asyncHandler } from "@/lib/asyncHandler";
 import { sendSuccess } from "@/lib/apiResponse";
 import { publicRateLimiter } from "@/middlewares/rateLimiters";
 import * as publicService from "@/modules/public/public.service";
+import * as blogCategoriesController from "@/modules/blog-categories/blog-categories.controller";
+import * as blogsController from "@/modules/blogs/blogs.controller";
 
 const router = Router();
 
@@ -56,5 +58,10 @@ router.get(
     return sendSuccess(res, data);
   })
 );
+
+
+
+router.get("/blog-categories", blogCategoriesController.list);
+router.get("/blogs/category/:categoryId", blogsController.getByCategory);
 
 export default router;

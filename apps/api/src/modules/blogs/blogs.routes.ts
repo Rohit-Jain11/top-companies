@@ -19,7 +19,6 @@ router.post("/bulk-restore", validate(bulkDeleteBlogsSchema), blogsController.bu
 router.post("/bulk-permanent-delete", validate(bulkDeleteBlogsSchema), blogsController.bulkPermanentDelete);
 router.post("/bulk-status", validate(bulkStatusBlogsSchema), blogsController.bulkStatus);
 router.get("/:id", blogsController.getById);
-router.get("/category/:categoryId", blogsController.getByCategory);
 router.post("/", validate(createBlogSchema), blogsController.create);
 router.patch("/:id", validate(updateBlogSchema), blogsController.update);
 router.post("/:id/restore", blogsController.restore);
