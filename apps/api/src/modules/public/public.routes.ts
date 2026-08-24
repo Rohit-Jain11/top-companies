@@ -62,6 +62,7 @@ router.get(
 
 
 router.get("/blog-categories", blogCategoriesController.list);
+router.get("/blogs", blogsController.publicList);
 router.get("/blogs/category/:categoryId", blogsController.getByCategory);
 
 export default router;

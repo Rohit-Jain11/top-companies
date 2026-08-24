@@ -8,6 +8,11 @@ export const list = asyncHandler(async (req: Request, res: Response) => {
   return sendSuccess(res, data, { meta });
 });
 
+export const publicList = asyncHandler(async (req: Request, res: Response) => {
+  const data = await blogsService.getPublicBlogsWithLatest(req.query as Record<string, unknown>);
+  return sendSuccess(res, data);
+});
+
 export const getById = asyncHandler(async (req: Request, res: Response) => {
   const blog = await blogsService.getBlogById(Number(req.params.id));
   return sendSuccess(res, blog);

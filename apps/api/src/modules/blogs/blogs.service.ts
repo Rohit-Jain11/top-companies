@@ -59,6 +59,49 @@ export const getBlogById = async (id: number) => {
   return attachAuditNames(blog);
 };
 
+export const getPublicBlogsWithLatest = async (query: Record<string, unknown>) => {
+  const { page, limit, skip, take } = parsePagination(query);
+  const sortBy = SORTABLE_FIELDS.includes(query.sortBy as (typeof SORTABLE_FIELDS)[number])
+    ? (query.sortBy as string)
+    : "createdAt";
+  const sortOrder = String(query.sortOrder ?? "desc").toLowerCase() === "asc" ? "asc" : "desc";
+  
+  const where: any = {
+    deletedAt: null,
+    status: "ACTIVE"
+  };
+
+  if (query.search && String(query.search).trim()) {
+    where.title = { contains: String(query.search).trim() };
+  }
+
+  const [data, total, latestBlogsRaw] = await Promise.all([
+    prisma.blog.findMany({
+      where,
+      skip,
+      take,
+      orderBy: { [sortBy]: sortOrder },
+      include: { blogCategory: { select: { id: true, name: true, slug: true } } },
+    }),
+    prisma.blog.count({ where }),
+    prisma.blog.findMany({
+      where: {
+        deletedAt: null,
+        status: "ACTIVE"
+      },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+    })
+  ]);
+
+  const latestBlogs = latestBlogsRaw.map(({ deletedAt, ...rest }) => rest);
+
+  return {
+    blogs: { data, meta: buildMeta(page, limit, total) },
+    latestBlogs
+  };
+};
+
 export const getBlogsWithLatestByCategory = async (categoryId: number, query: Record<string, unknown>) => {
   const categoryExists = await prisma.blogCategory.findUnique({
     where: { id: categoryId },
