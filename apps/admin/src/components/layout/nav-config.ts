@@ -6,6 +6,8 @@ import {
   UserCog,
   Users,
   Wrench,
+  BookOpen,
+  FileText,
 } from "lucide-react";
 
 export interface NavItem {
@@ -19,6 +21,8 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Companies", href: "/companies", icon: Building2 },
   { label: "Categories", href: "/categories", icon: LayoutList },
+  { label: "Blog Categories", href: "/blog-categories", icon: BookOpen },
+  { label: "Blogs", href: "/blogs", icon: FileText },
   {
     label: "Masters",
     href: "/masters/countries",

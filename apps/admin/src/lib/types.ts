@@ -213,3 +213,43 @@ export interface SettingsData {
     about: SeoMetaFields;
   };
 }
+
+export interface BlogCategory extends AuditFields {
+  id: number;
+  name: string;
+  slug: string;
+  description: string | null;
+  image: string | null;
+  status: Status;
+  metaTitle: string | null;
+  metaDescription: string | null;
+  canonicalUrl: string | null;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: string | null;
+  robots: string | null;
+  createdAt: string;
+  updatedAt: string;
+  _count?: { blogs: number };
+}
+
+export interface Blog extends AuditFields {
+  id: number;
+  title: string;
+  slug: string;
+  content: string | null;
+  image: string | null;
+  status: Status;
+  publishedAt: string | null;
+  blogCategoryId: number | null;
+  blogCategory: Pick<BlogCategory, "id" | "name" | "slug"> | null;
+  metaTitle: string | null;
+  metaDescription: string | null;
+  canonicalUrl: string | null;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: string | null;
+  robots: string | null;
+  createdAt: string;
+  updatedAt: string;
+}

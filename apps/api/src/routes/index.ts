@@ -8,6 +8,8 @@ import settingsRoutes from "@/modules/settings/settings.routes";
 import uploadsRoutes from "@/modules/uploads/uploads.routes";
 import publicRoutes from "@/modules/public/public.routes";
 import usersRoutes from "@/modules/users/users.routes";
+import blogCategoriesRoutes from "@/modules/blog-categories/blog-categories.routes";
+import blogsRoutes from "@/modules/blogs/blogs.routes";
 
 const router = Router();
 
@@ -19,6 +21,8 @@ router.use("/admin/categories", categoriesRoutes);
 router.use("/admin/settings", settingsRoutes);
 router.use("/admin/uploads", uploadsRoutes);
 router.use("/admin/users", usersRoutes);
+router.use("/admin/blog-categories", blogCategoriesRoutes);
+router.use("/admin/blogs", blogsRoutes);
 // Countries, tech-stacks, employee-ranges, hour-rate-ranges
 router.use("/admin", mastersRoutes);
 
