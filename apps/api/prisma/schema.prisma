@@ -416,30 +416,30 @@ model CompanyLocation {
 // ---------------------------------------------------------------------------
 
 model BlogCategory {
-  id              Int       @id @default(autoincrement())
-  name            String    @db.VarChar(200)
-  slug            String    @unique @db.VarChar(220)
-  description     String?   @db.Text
-  image           String?   @db.VarChar(500)
-  status          Status    @default(ACTIVE)
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(200)
+  slug        String  @unique @db.VarChar(220)
+  description String? @db.Text
+  image       String? @db.VarChar(500)
+  status      Status  @default(ACTIVE)
 
   // SEO
-  metaTitle       String?   @db.VarChar(255)
-  metaDescription String?   @db.VarChar(500)
-  canonicalUrl    String?   @db.VarChar(500)
-  ogTitle         String?   @db.VarChar(255)
-  ogDescription   String?   @db.VarChar(500)
-  ogImage         String?   @db.VarChar(500)
-  robots          String?   @db.VarChar(100)
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(500)
+  canonicalUrl    String? @db.VarChar(500)
+  ogTitle         String? @db.VarChar(255)
+  ogDescription   String? @db.VarChar(500)
+  ogImage         String? @db.VarChar(500)
+  robots          String? @db.VarChar(100)
 
-  createdById     Int?
-  updatedById     Int?
-  deletedById     Int?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  deletedAt       DateTime?
+  createdById Int?
+  updatedById Int?
+  deletedById Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
-  blogs           Blog[]
+  blogs Blog[]
 
   @@index([status])
   @@index([deletedAt])
@@ -451,32 +451,32 @@ model BlogCategory {
 // ---------------------------------------------------------------------------
 
 model Blog {
-  id              Int           @id @default(autoincrement())
-  title           String        @db.VarChar(255)
-  slug            String        @unique @db.VarChar(255)
-  content         String?       @db.LongText
-  image           String?       @db.VarChar(500)
-  status          Status        @default(ACTIVE)
-  publishedAt     DateTime?
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  slug        String    @unique @db.VarChar(255)
+  content     String?   @db.LongText
+  image       String?   @db.VarChar(500)
+  status      Status    @default(ACTIVE)
+  publishedAt DateTime?
 
-  blogCategoryId  Int?
-  blogCategory    BlogCategory? @relation(fields: [blogCategoryId], references: [id])
+  blogCategoryId Int?
+  blogCategory   BlogCategory? @relation(fields: [blogCategoryId], references: [id])
 
   // SEO
-  metaTitle       String?   @db.VarChar(255)
-  metaDescription String?   @db.VarChar(500)
-  canonicalUrl    String?   @db.VarChar(500)
-  ogTitle         String?   @db.VarChar(255)
-  ogDescription   String?   @db.VarChar(500)
-  ogImage         String?   @db.VarChar(500)
-  robots          String?   @db.VarChar(100)
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(500)
+  canonicalUrl    String? @db.VarChar(500)
+  ogTitle         String? @db.VarChar(255)
+  ogDescription   String? @db.VarChar(500)
+  ogImage         String? @db.VarChar(500)
+  robots          String? @db.VarChar(100)
 
-  createdById     Int?
-  updatedById     Int?
-  deletedById     Int?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  deletedAt       DateTime?
+  createdById Int?
+  updatedById Int?
+  deletedById Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
   @@index([status])
   @@index([blogCategoryId])

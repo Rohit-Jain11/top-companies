@@ -1,7 +1,5 @@
 node_modules/
 .claude
-.env
-.env.local
 .env.*.local
 apps/api/uploads/*
 !apps/api/uploads/.gitkeep
@@ -14,3 +12,4 @@ apps/web/out/
 .DS_Store
 Thumbs.db
 .vscode/
+config.bat

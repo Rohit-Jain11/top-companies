@@ -1,4 +1,4 @@
-import { AboutData, HomeData, PublicCategoryDetail, PublicCategorySummary, HomeTopCompaniesData } from "@/lib/types";
+import { AboutData, HomeData, PublicCategoryDetail, PublicCategorySummary, HomeTopCompaniesData, BlogCategory, AllBlogData } from "@/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
@@ -47,4 +47,43 @@ export const getPublicAbout = async (): Promise<AboutData> => {
   const data = await fetchPublicApi<AboutData>("/public/about");
   if (!data) throw new Error("Failed to load about data");
   return data;
+};
+
+export const getBlogCategory = async (): Promise<BlogCategory[]> => {
+  const data = await fetchPublicApi<BlogCategory[]>("/public/blog-categories");
+  if (!data) throw new Error("Failed to load blog categories");
+  return data;
+};
+
+// export const getBlogData = async ( page = 1, limit = 2 ): Promise<AllBlogData> => {
+//   const data = await fetchPublicApi<AllBlogData>(`/public/blogs?page=${page}&limit=${limit}`);
+//   if (!data) {
+//     throw new Error("Failed to load blogs");
+//   }
+//   return data;
+// };
+
+export const getBlogData = async (
+    page = 1,
+    limit = 2,
+    categorySlug?: string | null
+): Promise<AllBlogData> => {
+    const params = new URLSearchParams({
+        page: String(page),
+        limit: String(limit),
+    });
+
+    if (categorySlug) {
+        params.append("category", categorySlug);
+    }
+
+    const data = await fetchPublicApi<AllBlogData>(
+        `/public/blogs?${params.toString()}`
+    );
+
+    if (!data) {
+        throw new Error("Failed to load blogs");
+    }
+
+    return data;
 };
