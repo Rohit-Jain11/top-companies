@@ -6,13 +6,14 @@ import { UpdateSettingsInput } from "@/modules/settings/settings.validation";
 const SETTINGS_ID = 1;
 
 export const getSettings = async () => {
-  const [general, home, about] = await Promise.all([
+  const [general, home, about, generalSeo] = await Promise.all([
     prisma.settings.upsert({ where: { id: SETTINGS_ID }, create: { id: SETTINGS_ID }, update: {} }),
     prisma.seoMeta.upsert({ where: { page: "HOME" }, create: { page: "HOME" }, update: {} }),
     prisma.seoMeta.upsert({ where: { page: "ABOUT" }, create: { page: "ABOUT" }, update: {} }),
+    prisma.seoMeta.upsert({ where: { page: "GENERAL" }, create: { page: "GENERAL" }, update: {} }),
   ]);
 
-  return { general: await attachAuditNames(general), seo: { home, about } };
+  return { general: await attachAuditNames(general), seo: { general: generalSeo, home, about } };
 };
 
 export const updateSettings = async (input: UpdateSettingsInput, adminId: number) => {
@@ -42,6 +43,11 @@ export const updateSettings = async (input: UpdateSettingsInput, adminId: number
       where: { page: "ABOUT" },
       create: { page: "ABOUT", ...input.seo.about, updatedById: adminId },
       update: { ...input.seo.about, updatedById: adminId },
+    }),
+    prisma.seoMeta.upsert({
+      where: { page: "GENERAL" },
+      create: { page: "GENERAL", ...input.seo.general, updatedById: adminId },
+      update: { ...input.seo.general, updatedById: adminId },
     }),
   ]);
 
