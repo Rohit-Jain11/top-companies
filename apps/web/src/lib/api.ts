@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { AboutData, HomeData, PublicCategoryDetail, PublicCategorySummary, HomeTopCompaniesData, BlogCategory, AllBlogData, BlogDetailData } from "@/lib/types";
-=======
-import { AboutData, HomeData, PublicCategoryDetail, PublicCategorySummary, HomeTopCompaniesData, BlogCategory, AllBlogData } from "@/lib/types";
->>>>>>> fbf43db03196b231565d16fc6f0282a90afbae1a
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
@@ -59,7 +55,6 @@ export const getBlogCategory = async (): Promise<BlogCategory[]> => {
   return data;
 };
 
-<<<<<<< HEAD
 export const getBlogData = async (page = 1, limit = 2, categorySlug?: string | null): Promise<AllBlogData> => {
   const params = new URLSearchParams({
       page: String(page),
@@ -87,43 +82,6 @@ export const getBlogCategoryData = async (categorySlug: string, page = 1, limit 
   return data;
 };
 
-export const getBlogBySlug = async (slug: string): Promise<BlogDetailData> => {
-  const data = await fetchPublicApi<BlogDetailData>(`/public/blogs/${encodeURIComponent(slug)}`);
-  if (!data) {
-    throw new Error("Failed to load blog");
-  }
-  return data;
-=======
-// export const getBlogData = async ( page = 1, limit = 2 ): Promise<AllBlogData> => {
-//   const data = await fetchPublicApi<AllBlogData>(`/public/blogs?page=${page}&limit=${limit}`);
-//   if (!data) {
-//     throw new Error("Failed to load blogs");
-//   }
-//   return data;
-// };
-
-export const getBlogData = async (
-    page = 1,
-    limit = 2,
-    categorySlug?: string | null
-): Promise<AllBlogData> => {
-    const params = new URLSearchParams({
-        page: String(page),
-        limit: String(limit),
-    });
-
-    if (categorySlug) {
-        params.append("category", categorySlug);
-    }
-
-    const data = await fetchPublicApi<AllBlogData>(
-        `/public/blogs?${params.toString()}`
-    );
-
-    if (!data) {
-        throw new Error("Failed to load blogs");
-    }
-
-    return data;
->>>>>>> fbf43db03196b231565d16fc6f0282a90afbae1a
+export const getBlogBySlug = async (slug: string): Promise<BlogDetailData | null> => {
+  return await fetchPublicApi<BlogDetailData>(`/public/blogs/${encodeURIComponent(slug)}`);
 };

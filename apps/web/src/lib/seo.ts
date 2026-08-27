@@ -56,6 +56,6 @@ export function buildMetadata({
       description: ogDescription,
       images: ogImage ? [ogImage] : undefined,
     },
-    robots: seo.robots ?? "noindex, nofollow",
+    robots: seo.robots || undefined,
   };
 }
