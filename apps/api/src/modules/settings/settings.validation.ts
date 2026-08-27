@@ -44,6 +44,7 @@ export const updateSettingsSchema = z.object({
       .nullable(),
   }),
   seo: z.object({
+    general: seoSchema,
     home: seoSchema,
     about: seoSchema,
   }),
