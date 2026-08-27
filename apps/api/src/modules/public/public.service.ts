@@ -29,6 +29,7 @@ export const getHomeData = async () => {
   const [
     settings,
     homeSeo,
+    generalSeo,
     featuredCategories,
     featuredCompanies,
     totals,
@@ -36,6 +37,7 @@ export const getHomeData = async () => {
   ] = await Promise.all([
     prisma.settings.upsert({ where: { id: 1 }, create: { id: 1 }, update: {} }),
     prisma.seoMeta.upsert({ where: { page: "HOME" }, create: { page: "HOME" }, update: {} }),
+    prisma.seoMeta.upsert({ where: { page: "GENERAL" }, create: { page: "GENERAL" }, update: {} }),
     prisma.category.findMany({
       where: { ...activeFilter, featured: true, parentId: null },
       orderBy: { displayOrder: "asc" },
@@ -94,6 +96,7 @@ export const getHomeData = async () => {
   return {
     general: { siteName: settings.siteName, logo: settings.logo, socialLinks: settings.socialLinks },
     seo: homeSeo,
+    generalSeo,
     stats: { totalCompanies, totalCategories, totalCountries, totalTechStacks },
     featuredCategories,
     featuredCompanies,
