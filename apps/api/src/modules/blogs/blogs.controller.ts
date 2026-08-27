@@ -18,9 +18,14 @@ export const getById = asyncHandler(async (req: Request, res: Response) => {
   return sendSuccess(res, blog);
 });
 
+export const getBySlug = asyncHandler(async (req: Request, res: Response) => {
+  const blog = await blogsService.getPublicBlogBySlug(req.params.slug);
+  return sendSuccess(res, blog);
+});
+
 export const getByCategory = asyncHandler(async (req: Request, res: Response) => {
-  const data = await blogsService.getBlogsWithLatestByCategory(
-    Number(req.params.categoryId),
+  const data = await blogsService.getBlogsWithLatestByCategorySlug(
+    req.params.categorySlug,
     req.query as Record<string, unknown>
   );
   return sendSuccess(res, data);

@@ -135,7 +135,7 @@ export default async function AboutPage() {
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <path d="M6.23549 0L7.99825 4.47124L12.4695 6.23549L7.99825 7.99825L6.23549 12.4695L4.47124 7.99825L0 6.23549L4.47124 4.47124L6.23549 0Z" fill="#111827"></path>
               </svg>
-              Who it's for
+              Who it&apos;s for
             </span>
             <h2 className="font-fraunces text-foreground text-[32px] xl:text-[54px] leading-10 xl:leading-14.25 tracking-[-1.62px] font-normal mt-2 xl:mt-4 mb-4 xl:mb-10">
               Two <span className="text-primary font-light italic inline-block">audiences,</span> one <span className="text-primary font-light italic inline-block">directory</span> 

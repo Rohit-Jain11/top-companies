@@ -20,6 +20,7 @@ const envSchema = z.object({
   SMTP_PASS: z.string().optional(),
   MAX_UPLOAD_SIZE_MB: z.coerce.number().int().positive().default(5),
   CATEGORY_CRON_INTERVAL_HOURS: z.coerce.number().int().positive().default(2),
+  HOME_DATA_CRON_INTERVAL_HOURS: z.coerce.number().int().positive().default(6),
 });
 
 // Empty-string env vars (e.g. unset SMTP_* placeholders left blank in .env)

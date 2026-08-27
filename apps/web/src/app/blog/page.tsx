@@ -25,19 +25,6 @@ export default async function Blog() {
 
             <section className='px-5 pb-10 xl:pb-25 relative z-[1] overflow-hidden'>
                 <div className="container-8xl">
-                    {/* <div className='text-center mb-8 xl:mb-15'>
-                        <ul className='flex items-center border border-border rounded-2xl p-2.5 max-w-fit mx-auto overflow-x-auto bg-white'>
-                            {categoryName?.map((category, index) => (
-                                <li 
-                                    key={category.id}
-                                    className={`relative ${index !== categoryName?.length - 1 ? 'after:content-[""] after:absolute after:top-1/2 after:right-0 after:-translate-y-1/2 after:w-0.5 after:h-8 after:bg-border' : ''}`}
-                                >
-                                    <button type='button' className={`text-base leading-5.5 min-w-27.5 lg:min-w-38 px-2.5 lg:px-4 py-2.5 rounded-2xl cursor-pointer ${index === 0 ? 'text-white bg-foreground' : 'text-secondary'}`}>{category.name}</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
-                    {/* <BlogContent blogData={blogData} currentPage={1} categories={categoryName} /> */}
                     <BlogContent
                         blogData={blogData}
                         currentPage={1}

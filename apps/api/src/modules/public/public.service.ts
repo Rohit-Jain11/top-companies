@@ -50,7 +50,7 @@ export const getHomeData = async () => {
       },
     }),
     prisma.company.findMany({
-      where: { ...activeFilter, featured: true },
+      where: { ...activeFilter },
       orderBy: [{ score: "desc" }, { id: "desc" }],
       take: 8,
       select: publicCompanySelect,
@@ -79,9 +79,9 @@ export const getHomeData = async () => {
       },
     }),
   ]);
-
+ 
   const [totalCompanies, totalCategories, totalCountries, totalTechStacks] = totals;
-
+ 
   const spotlightCategory = spotlightCategoryRow
     ? {
       id: spotlightCategoryRow.id,
@@ -90,7 +90,7 @@ export const getHomeData = async () => {
       companies: spotlightCategoryRow.companies.map((c) => c.company),
     }
     : null;
-
+ 
   return {
     general: { siteName: settings.siteName, logo: settings.logo, socialLinks: settings.socialLinks },
     seo: homeSeo,
@@ -98,6 +98,7 @@ export const getHomeData = async () => {
     featuredCategories,
     featuredCompanies,
     spotlightCategory,
+    updateIntervalHours: env.HOME_DATA_CRON_INTERVAL_HOURS,
   };
 };
 
@@ -156,15 +157,24 @@ export const getPublicCategoryBySlug = async (slug: string) => {
       },
       companies: {
         where: { company: activeFilter },
-        orderBy: { displayOrder: "asc" },
+        orderBy: { company: { score: "desc" } },
         select: { company: { select: publicCompanySelect } },
       },
     },
   });
-
+ 
   if (!category) throw new NotFoundError("Category not found");
-
-  return { ...category, companies: category.companies.map((c) => c.company) };
+ 
+  const stats = await getCategoryStatsBySlug(slug);
+ 
+  return { ...category, companies: category.companies.map((c) => c.company), stats, updateIntervalHours: env.HOME_DATA_CRON_INTERVAL_HOURS };
+};
+ 
+export const getAllCategorySlugs = async () => {
+  return prisma.category.findMany({
+    where: activeFilter,
+    select: { slug: true },
+  });
 };
 
 export const getCompaniesByCategorySlug = async (slug: string) => {
@@ -240,4 +250,36 @@ export const getPublicAbout = async () => {
   ]);
 
   return { general: await attachAuditNames(general), seo: { home, about } };
+};
+
+export const getCategoryStatsBySlug = async (slug: string) => {
+  const category = await prisma.category.findFirst({
+    where: { slug, ...activeFilter },
+    select: { id: true }
+  });
+ 
+  if (!category) throw new NotFoundError("Category not found");
+ 
+  const companies = await prisma.company.findMany({
+    where: {
+      categories: { some: { categoryId: category.id } },
+      ...activeFilter
+    },
+    select: { score: true, countryId: true }
+  });
+ 
+  let topScore = 0;
+  const uniqueCountries = new Set<number>();
+ 
+  for (const c of companies) {
+    if (c.score && c.score > topScore) topScore = c.score;
+    if (c.countryId) uniqueCountries.add(c.countryId);
+  }
+ 
+  return {
+    companiesRanked: companies.length,
+    countriesCovered: uniqueCountries.size,
+    lastUpdated: env.CATEGORY_CRON_INTERVAL_HOURS || 2,
+    topScore
+  };
 };

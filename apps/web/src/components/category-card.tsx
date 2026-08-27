@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { PublicCategorySummary } from "@/lib/types";
 
 interface CategoryCardProps {
@@ -25,7 +24,7 @@ export function CategoryCard({ category, index, total }: CategoryCardProps) {
 
   return (
     <Link 
-      href={`/categories/${category.slug}`} 
+      href={`/${category.slug}`} 
       className={`
         w-full max-w-full
         py-3.75 px-3.5 xl:px-5.5

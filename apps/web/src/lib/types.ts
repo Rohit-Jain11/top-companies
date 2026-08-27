@@ -47,6 +47,13 @@ export interface PublicCategorySummary {
   children?: { id: number; name: string; slug: string; _count: { companies: number } }[];
 }
 
+export interface CategoryStats {
+  companiesRanked: number;
+  countriesCovered: number;
+  lastUpdated: number;
+  topScore: number;
+}
+
 export interface PublicCategoryDetail {
   id: number;
   name: string;
@@ -66,6 +73,8 @@ export interface PublicCategoryDetail {
   children: { id: number; name: string; slug: string }[];
   faqs: { question: string; answer: string }[];
   companies: PublicCompany[];
+  stats: CategoryStats;
+  updateIntervalHours: number;
 }
 
 export interface HomeStats {
@@ -100,6 +109,7 @@ export interface HomeData {
   featuredCategories: PublicCategorySummary[];
   featuredCompanies: PublicCompany[];
   spotlightCategory: SpotlightCategory | null;
+  updateIntervalHours: number;
 }
 
 export interface homeFaqData {
@@ -150,19 +160,27 @@ export interface BlogListData {
   data: Blog[];
   meta: BlogMeta;
 }
-export interface LatestBlog {
-  id: number;
-  title: string;
-  content: string | null;
-  slug: string;
-  image: string | null;
-  status: string;
-  publishedAt: string | null;
-  blogCategoryId: number;
-  createdAt: string;
-  updatedAt: string;
-}
 export interface AllBlogData {
   blogs: BlogListData;
-  latestBlogs: LatestBlog[];
+  latestBlogs: Blog[];
+}
+export interface BlogDetail extends Blog {
+  metaTitle: string;
+  metaDescription: string;
+  canonicalUrl: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  robots: string;
+  createdById: number;
+  updatedById: number;
+  deletedById: number | null;
+}
+export interface BlogDetailData {
+  blog: BlogDetail;
+  latestBlogs: Blog[];
+}
+export interface BlogDetailResponse {
+  success: boolean;
+  data: BlogDetailData;
 }

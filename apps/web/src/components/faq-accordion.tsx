@@ -1,5 +1,9 @@
-export function FaqAccordion({ faqs }: { faqs: { question: string; answer: string }[] }) {
-  if (faqs.length === 0) return null;
+export function FaqAccordion({
+  faqs,
+}: {
+  faqs?: { question: string; answer: string }[] | null;
+}) {
+  if (!faqs?.length) return null;
 
   return (
     <div className="space-y-4">

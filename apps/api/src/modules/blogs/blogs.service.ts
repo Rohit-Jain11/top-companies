@@ -59,6 +59,28 @@ export const getBlogById = async (id: number) => {
   return attachAuditNames(blog);
 };
 
+export const getPublicBlogBySlug = async (slug: string) => {
+  const [blog, latestBlogsRaw] = await Promise.all([
+    prisma.blog.findFirst({
+      where: { slug, deletedAt: null, status: "ACTIVE" },
+      include: { blogCategory: { select: { id: true, name: true, slug: true } } }
+    }),
+    prisma.blog.findMany({
+      where: {
+        deletedAt: null,
+        status: "ACTIVE"
+      },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+      include: { blogCategory: { select: { id: true, name: true, slug: true } } }
+    })
+  ]);
+  if (!blog) throw new NotFoundError("Blog not found");
+  const { deletedAt, ...rest } = blog;
+  const latestBlogs = latestBlogsRaw.map(({ deletedAt, ...blogRest }) => blogRest);
+  return { blog: rest, latestBlogs };
+};
+
 export const getPublicBlogsWithLatest = async (query: Record<string, unknown>) => {
   const { page, limit, skip, take } = parsePagination(query);
   const sortBy = SORTABLE_FIELDS.includes(query.sortBy as (typeof SORTABLE_FIELDS)[number])
@@ -91,6 +113,7 @@ export const getPublicBlogsWithLatest = async (query: Record<string, unknown>) =
       },
       take: 10,
       orderBy: { createdAt: "desc" },
+      include: { blogCategory: { select: { id: true, name: true, slug: true } } }
     })
   ]);
 
@@ -102,9 +125,9 @@ export const getPublicBlogsWithLatest = async (query: Record<string, unknown>) =
   };
 };
 
-export const getBlogsWithLatestByCategory = async (categoryId: number, query: Record<string, unknown>) => {
-  const categoryExists = await prisma.blogCategory.findUnique({
-    where: { id: categoryId },
+  export const getBlogsWithLatestByCategorySlug = async (categorySlug: string, query: Record<string, unknown>) => {
+  const categoryExists = await prisma.blogCategory.findFirst({
+    where: { slug: categorySlug },
   });
   if (!categoryExists) {
     throw new NotFoundError("Blog Category not found");
@@ -117,7 +140,7 @@ export const getBlogsWithLatestByCategory = async (categoryId: number, query: Re
   const sortOrder = String(query.sortOrder ?? "desc").toLowerCase() === "asc" ? "asc" : "desc";
   
   const where: any = {
-    blogCategoryId: categoryId,
+    blogCategoryId: categoryExists.id,
     deletedAt: null,
     status: "ACTIVE"
   };
@@ -137,7 +160,7 @@ export const getBlogsWithLatestByCategory = async (categoryId: number, query: Re
     prisma.blog.count({ where }),
     prisma.blog.findMany({
       where: {
-        blogCategoryId: categoryId,
+        blogCategoryId: categoryExists.id,
         deletedAt: null,
         status: "ACTIVE"
       },

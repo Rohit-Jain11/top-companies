@@ -48,7 +48,7 @@ export default function CategoryTabs({ categories, }: CategoryTabsProps) {
                                     <button
                                         type="button"
                                         onClick={() => setActiveCategoryId(category.id)}
-                                        aria-selected={isActive}
+                                        //aria-selected={isActive}
                                         className={`text-lg leading-7 py-3 border-b block w-full text-left cursor-pointer transition-colors ${
                                         isActive
                                             ? "text-primary border-primary font-semibold"
@@ -71,7 +71,7 @@ export default function CategoryTabs({ categories, }: CategoryTabsProps) {
                             <h2 className="font-fraunces text-foreground text-[22px] xl:text-[28px] leading-7 xl:leading-11 tracking-[-0.56px] font-normal">
                                 {activeCategory.name}
                             </h2>
-                            <Link href={`/categories/${activeCategory.slug}`} className="inline-flex items-center gap-1.5 text-primary text-sm font-medium hover:underline">
+                            <Link href={`/${activeCategory.slug}`} className="inline-flex items-center gap-1.5 text-primary text-sm font-medium hover:underline">
                                 <span className="hidden sm:inline-block">View All</span>
                                 <ArrowRight className="size-4" />
                             </Link>
@@ -82,7 +82,7 @@ export default function CategoryTabs({ categories, }: CategoryTabsProps) {
                                 {activeCategory.children.map((child) => (
                                     <Link
                                         key={child.id}
-                                        href={`/categories/${child.slug}`}
+                                        href={`/${child.slug}`}
                                         className="py-1.5 sm:py-2.75 transition-all text-base leading-5.5 text-secondary px-3.5 relative before:content-[''] before:absolute before:left-0 before:top-3.5 sm:before:top-4.75 before:w-1 before:h-1 before:bg-secondary before:opacity-20 before:rounded-full hover:text-primary hover:before:bg-primary hover:before:opacity-100 hover:underline"
                                     >
                                         {child.name}

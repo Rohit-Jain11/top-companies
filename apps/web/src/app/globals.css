@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
   --background: #ffffff;
   --foreground: #111827;
@@ -14,16 +12,6 @@
   --background-gray: #F8F8F8;
 
   --shadow-card: 0 40px 88px rgb(31 42 60 / 0.1);
-}
-
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --primary: #3b82f6;
-  --primary-foreground: #0a0a0a;
 }
 
 @theme inline {

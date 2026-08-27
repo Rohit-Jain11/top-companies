@@ -21,8 +21,15 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Companies", href: "/companies", icon: Building2 },
   { label: "Categories", href: "/categories", icon: LayoutList },
-  { label: "Blog Categories", href: "/blog-categories", icon: BookOpen },
-  { label: "Blogs", href: "/blogs", icon: FileText },
+  {
+    label: "Blogs",
+    href: "/blogs",
+    icon: FileText,
+    children: [
+      { label: "List", href: "/blogs" },
+      { label: "Categories", href: "/blog-categories" },
+    ],
+  },
   {
     label: "Masters",
     href: "/masters/countries",

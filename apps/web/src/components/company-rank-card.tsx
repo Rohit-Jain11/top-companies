@@ -1,16 +1,6 @@
-import Image from "next/image";
-import { ArrowUpRight, BadgeCheck, DollarSign, MapPin, Users } from "lucide-react";
 import { PublicCompany } from "@/lib/types";
-import Link from "next/link";
 
 export function CompanyRankCard({ company, rank }: { company: PublicCompany; rank: number }) {
-  const initials = company.name
-    .split(" ")
-    .map((word) => word[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
   const stacks = company.techStacks.map((t) => t.techStack);
   const visibleStacks = stacks.slice(0, 4);
   const extraCount = stacks.length - visibleStacks.length;

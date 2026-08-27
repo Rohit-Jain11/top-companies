@@ -80,22 +80,63 @@ export const getCompanyById = async (id: number) => {
   return attachAuditNames(company);
 };
 
-export const createCompany = async (input: CreateCompanyInput, adminId: number) => {
-  const { techStackIds, ...rest } = input;
-  const slug = await generateUniqueSlug(input.slug || input.name, slugExists());
+export const createCompany = async (
+  input: CreateCompanyInput,
+  adminId: number,
+) => {
+  const {
+    techStackIds,
+    countryId,
+    employeeRangeId,
+    hourlyRateRangeId,
+    detail,
+    ...rest
+  } = input;
+
+  const slug = await generateUniqueSlug(
+    input.slug || input.name,
+    slugExists(),
+  );
 
   const company = await prisma.$transaction(async (tx) => {
     const created = await tx.company.create({
       data: {
         ...rest,
         slug,
+
+        country:
+          countryId != null
+            ? { connect: { id: countryId } }
+            : undefined,
+
+        employeeRange:
+          employeeRangeId != null
+            ? { connect: { id: employeeRangeId } }
+            : undefined,
+
+        hourlyRateRange:
+          hourlyRateRangeId != null
+            ? { connect: { id: hourlyRateRangeId } }
+            : undefined,
+
+        detail:
+          detail != null
+            ? { create: detail }
+            : undefined,
+
         createdById: adminId,
         updatedById: adminId,
+
         techStacks: techStackIds?.length
-          ? { create: techStackIds.map((techStackId) => ({ techStackId })) }
+          ? {
+              create: techStackIds.map((techStackId) => ({
+                techStackId,
+              })),
+            }
           : undefined,
       },
     });
+
     return created;
   });
 

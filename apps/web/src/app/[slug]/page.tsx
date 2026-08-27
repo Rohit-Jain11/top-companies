@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return buildMetadata({
     seo: category,
-    path: `/categories/${category.slug}`,
+    path: `/${category.slug}`,
     fallbackTitle: `${category.name} - Top Companies`,
     fallbackDescription:
       category.heroDescription ?? `Compare the top-reviewed ${category.name.toLowerCase()} companies, ranked 0-10.`,
@@ -38,8 +38,8 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   const breadcrumbItems = [
     { name: "Home", url: absoluteUrl("/") },
     { name: "Categories", url: absoluteUrl("/categories") },
-    ...(category.parent ? [{ name: category.parent.name, url: absoluteUrl(`/categories/${category.parent.slug}`) }] : []),
-    { name: category.name, url: absoluteUrl(`/categories/${category.slug}`) },
+    ...(category.parent ? [{ name: category.parent.name, url: absoluteUrl(`/${category.parent.slug}`) }] : []),
+    { name: category.name, url: absoluteUrl(`/${category.slug}`) },
   ];
 
   const breadcrumbList = {
@@ -95,7 +95,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
             {category.parent && (
               <>
                 <span className='text-sm leading-6 text-secondary block'>/</span>
-                <Link href={`/categories/${category.parent.slug}`} className="text-sm leading-6 text-secondary block uppercase">
+                <Link href={`/${category.parent.slug}`} className="text-sm leading-6 text-secondary block uppercase">
                   {category.parent.name}
                 </Link>
               </>
@@ -138,7 +138,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
       <div className="container-8xl">
         <div className="mb-4 xl:mb-6.5 flex flex-wrap gap-2 items-center justify-between">
           <h3 className="font-fraunces text-foreground text-[22px] xl:text-[28px] leading-7 xl:leading-11 tracking-[-0.56px] font-normal">The 2026 leaderboard</h3>
-          <span className="inline-block bg-[#E7F5EC] text-[#178A4C] text-sm leading-5 font-normal rounded-full px-2.5 py-1">13 Signals · Updated {category.updateIntervalHours} hrs ago</span>
+          <span className="inline-block bg-[#E7F5EC] text-[#178A4C] text-sm leading-5 font-normal rounded-full px-2.5 py-1">Updated {category.updateIntervalHours} hrs ago</span>
         </div>
         <div>
           {category.companies.length === 0 ? (
@@ -215,7 +215,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
             category.children.map((child) => (
               <Link
                 key={child.id}
-                href={`/categories/${child.slug}`}
+                href={`/${child.slug}`}
                 className="relative flex min-h-41.25 flex-col flex-wrap justify-end rounded-[10px] border border-white bg-[#E8E6DD]/10 p-5 text-lg font-semibold leading-7 text-foreground shadow-[inset_6px_0px_8px_rgba(0,0,0,0.02)] before:absolute before:left-5 before:top-5 before:h-0.5 before:w-6 before:rounded-[3px] before:bg-primary before:opacity-0 before:content-[''] hover:shadow-[inset_6px_0px_8px_rgba(0,0,0,0.02),0_40px_88px_rgb(31_42_60/0.1)] hover:before:opacity-100"
               >
                 {child.name}

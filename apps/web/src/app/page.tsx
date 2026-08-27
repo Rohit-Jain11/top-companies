@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ClipboardCheck, Gauge, RefreshCw, ScanSearch, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { ArrowRight, } from "lucide-react";
 import { CategoryCard } from "@/components/category-card";
 import { CompanyRankCard } from "@/components/company-rank-card";
 import { StatsBar } from "@/components/stats-bar";
-import { getHomeData, getTopCompaniesData, getPublicAbout } from "@/lib/api";
+import { getHomeData, getTopCompaniesData, getPublicAbout, getBlogData } from "@/lib/api";
 import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { FaqAccordion } from "@/components/faq-accordion";
@@ -24,40 +24,18 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-const blogs = [
-  {
-    id: 1,
-    image: "/blog1.webp",
-    category: "Trending this week",
-    title: "How to Choose a Development Agency Without Getting Burned",
-    readTime: "6 min read",
-    date: "Jul 2026",
-  },
-  {
-    id: 2,
-    image: "/blog2.webp",
-    category: "Comparison",
-    title: "Top 10 Game Development Studios in India, Ranked",
-    readTime: "8 min read",
-    date: "Jul 2026",
-  },
-  {
-    id: 3,
-    image: "/blog3.webp",
-    category: "Industry Trend",
-    title: "Why AI-Driven Rankings Are Replacing Pay-to-Rank Directories",
-    readTime: "5 min read",
-    date: "Jul 2026",
-  },
-];
-
 export default async function HomePage() {
   const home = await getHomeData();
   const faqs = await getPublicAbout();
   const homeCompany = await getTopCompaniesData();
   const spotlight = home.spotlightCategory;
 
-  const home_faqs = faqs?.general?.homeFaqs;
+  const home_faqs = faqs?.general?.homeFaqs ?? [];
+
+  console.log("home", home);
+
+  const latestBlogs = await getBlogData();
+  const articals = (latestBlogs?.latestBlogs ?? []).slice(0, 3);
 
   const getScoreLabel = (score: number | null) => {
     if (score === null) return "";
@@ -85,7 +63,7 @@ export default async function HomePage() {
               TOP COMPANIES
             </span>
             <h1 className="font-fraunces text-foreground text-[40px] xl:text-[88px] leading-12 xl:leading-23.75 max-w-232.5 mx-auto tracking-[-2px] font-normal mt-3 xl:mt-6">
-              <span className="text-primary font-light italic inline-block">Stop guessing.</span> Start with who's actually good.
+              <span className="text-primary font-light italic inline-block">Stop guessing.</span> Start with who&apos;s actually good.
             </h1>
             <p className="mx-auto my-4 xl:my-7.5 max-w-175.75 text-lg text-secondary">
               {home.seo.metaDescription ??
@@ -101,7 +79,7 @@ export default async function HomePage() {
             </Link>
             {spotlight && (
               <Link
-                href={`/categories/${spotlight.slug}`}
+                href={`/${spotlight.slug}`}
                 className="flex items-center justify-center gap-2 rounded-full bg-white px-6.5 py-2.75 text-lg font-semibold text-foreground hover:text-white hover:bg-primary transition-all ease-in-out duration-250 border border-border hover:border-primary w-full sm:w-auto"
               >
                 Watch live rankings
@@ -153,7 +131,7 @@ export default async function HomePage() {
       {/* About Section */}
       <section className="pt-10 xl:pt-12.5 pb-10 xl:pb-25 px-5">
         <div className="container-8xl">
-          <h2 className="max-w-272.5 mx-auto text-foreground text-[22px] xl:text-[28px] leading-7.5 xl:leading-11 tracking-[-1.62px] text-center mb-8 xl:mb-15 font-fraunces font-normal">NipsApp Game Studios is the world's leading game development studio, with an unmatched portfolio of award-winning titles across mobile, PC, console, VR, and the metaverse. Trusted by global publishers and indie founders, the Trivandrum-based team combines AAA-grade production with breakthrough creative direction. This is the reason NipsApp consistently ranks #1 across every gaming category we track.</h2>
+          <h2 className="max-w-272.5 mx-auto text-foreground text-[22px] xl:text-[28px] leading-7.5 xl:leading-11 tracking-[-1.62px] text-center mb-8 xl:mb-15 font-fraunces font-normal">NipsApp Game Studios is the world&apos;s leading game development studio, with an unmatched portfolio of award-winning titles across mobile, PC, console, VR, and the metaverse. Trusted by global publishers and indie founders, the Trivandrum-based team combines AAA-grade production with breakthrough creative direction. This is the reason NipsApp consistently ranks #1 across every gaming category we track.</h2>
           <div className="">
             <StatsBar stats={home.stats} />
           </div>
@@ -176,7 +154,7 @@ export default async function HomePage() {
             <div className="glass2 rounded-[20px] pt-5 pb-5 xl:pb-9 px-5 xl:px-7.5">
               <div className="mb-4 xl:mb-6.5 flex flex-wrap gap-2 items-center justify-between">
                 <h3 className="font-fraunces text-foreground text-[22px] xl:text-[28px] leading-7 xl:leading-11 tracking-[-0.56px] font-normal">The 2026 leaderboard</h3>
-                <span className="inline-block bg-[#E7F5EC] text-[#178A4C] text-sm leading-5 font-normal rounded-full px-2.5 py-1">13 Signals · Updated 6 hrs ago</span>
+                <span className="inline-block bg-[#E7F5EC] text-[#178A4C] text-sm leading-5 font-normal rounded-full px-2.5 py-1">Updated {home.updateIntervalHours} hrs ago</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6">
                 {spotlight.companies.map((company, index) => (
@@ -186,7 +164,7 @@ export default async function HomePage() {
             </div>
             <div className="mt-8 xl:mt-15 flex justify-center">
               <Link
-                href={`/categories/${spotlight.slug}`}
+                href={`/${spotlight.slug}`}
                 className="flex items-center gap-2 rounded-full bg-foreground px-6.5 py-3 text-lg font-semibold text-white hover:bg-primary transition-all ease-in-out duration-250"
               >
                 View full ranking <ArrowRight className="size-5" />
@@ -259,7 +237,7 @@ export default async function HomePage() {
                 Worth reading
               </span>
               <h2 className="font-fraunces text-foreground text-[32px] xl:text-[54px] leading-10 xl:leading-14.25 tracking-[-1.62px] font-normal mt-2 xl:mt-4">
-                Comparisons, <span className="text-primary font-light italic">hiring playbooks,</span> and what's <span className="text-primary font-light italic">moving in the industry.</span>
+                Comparisons, <span className="text-primary font-light italic">hiring playbooks,</span> and what&apos;s <span className="text-primary font-light italic">moving in the industry.</span>
               </h2>
             </div>
             <Link
@@ -270,15 +248,22 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xl:gap-6">
-            {blogs.map((blog) => (
+            {articals.map((blog) => (
               <div key={blog.id} className="bg-white border border-border rounded-2xl p-4 xl:p-7 hover:shadow-card transition-all ease-in-out duration-300">
                 <div className="h-63.25 overflow-hidden rounded-2xl">
-                  <Image src={blog.image} alt={blog.title} width={500} height={500} className="w-full h-full object-cover" />
+                  {blog?.image && (
+                    <Image src={blog?.image} alt={blog?.title} width={500} height={500} className="w-full h-full object-cover" />
+                  )}
                 </div>
                 <div className="mt-4.5">
-                  <span className="uppercase text-secondary text-xs leading-4.75 tracking-[1.2px] block">{blog.category}</span>
-                  <h3 className="my-2 text-lg leading-7 font-bold text-foreground">{blog.title}</h3>
-                  <p className="text-secondary text-sm leading-5.25">{blog.readTime} · {blog.date}</p>
+                  <span className="uppercase text-secondary text-xs leading-4.75 tracking-[1.2px] block">{blog?.blogCategory?.name}</span>
+                  <h3 className="my-2 text-lg leading-7 font-bold text-foreground"><Link href={`/blog/${blog.slug}`} className="block">{blog?.title}</Link></h3>
+                  <p className="text-secondary text-sm leading-5.25">
+                    {new Date(blog?.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
               </div>
             ))}

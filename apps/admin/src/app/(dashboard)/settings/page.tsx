@@ -34,7 +34,7 @@ const EMPTY_SEO = {
   ogTitle: "",
   ogDescription: "",
   ogImage: "",
-  robots: "index, follow",
+  robots: "noindex, nofollow",
 };
 
 const DEFAULT_VALUES: SettingsFormInput = {

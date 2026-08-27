@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { getPublicCategories } from "@/lib/api";
 import { buildMetadata } from "@/lib/seo";
 import CategoryTabs from "@/components/CategoryTabs";
@@ -21,7 +20,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CategoriesPage() {
   const categories = await getPublicCategories();
-  const totalCompanies = categories.reduce((sum, c) => sum + c._count.companies, 0);
 
   return (
     <>

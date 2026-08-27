@@ -58,7 +58,7 @@ export function CategoryForm({ category }: { category?: Category }) {
       ogTitle: category?.ogTitle ?? "",
       ogDescription: category?.ogDescription ?? "",
       ogImage: category?.ogImage ?? "",
-      robots: category?.robots ?? "index, follow",
+      robots: category?.robots ?? "noindex, nofollow",
       faqs: category?.faqs?.map((f) => ({ question: f.question, answer: f.answer, sortOrder: f.sortOrder })) ?? [],
       companies:
         category?.companies?.map((c) => ({

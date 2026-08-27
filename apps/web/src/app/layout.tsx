@@ -62,11 +62,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
           <div className="flex min-h-dvh flex-col">
             <Header siteName={siteName} logo={logo} />
             <main className="flex-1">{children}</main>
-            <Footer siteName={siteName} socialLinks={home?.general.socialLinks ?? null} />
+            <Footer siteName={siteName} />
           </div>
         </ThemeProvider>
       </body>

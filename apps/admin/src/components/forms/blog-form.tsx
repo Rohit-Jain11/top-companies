@@ -46,7 +46,7 @@ export function BlogForm({ blog }: { blog?: Blog }) {
       ogTitle: blog?.ogTitle ?? "",
       ogDescription: blog?.ogDescription ?? "",
       ogImage: blog?.ogImage ?? "",
-      robots: blog?.robots ?? "",
+      robots: blog?.robots ?? "noindex, nofollow",
     },
   });
 
@@ -115,7 +115,9 @@ export function BlogForm({ blog }: { blog?: Blog }) {
                   <Select value={field.value ?? ""} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder="Select a category">
+                          {(value: string) => categories?.find((cat) => String(cat.id) === value)?.name || "Select a category"}
+                        </SelectValue>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

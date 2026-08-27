@@ -42,7 +42,7 @@ export function BlogCategoryForm({ category }: { category?: BlogCategory }) {
       ogTitle: category?.ogTitle ?? "",
       ogDescription: category?.ogDescription ?? "",
       ogImage: category?.ogImage ?? "",
-      robots: category?.robots ?? "",
+      robots: category?.robots ?? "noindex, nofollow",
     },
   });
 

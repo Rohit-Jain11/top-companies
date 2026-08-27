@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Building2, Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [

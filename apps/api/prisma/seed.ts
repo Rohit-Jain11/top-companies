@@ -155,7 +155,7 @@ async function main() {
         displayOrder: CATEGORY_TREE.indexOf(parentDef),
         metaTitle: `Top ${parentDef.name} Companies | Top Companies`,
         metaDescription: faker.lorem.sentence(),
-        robots: "index, follow",
+        robots: "noindex, nofollow",
         faqs: {
           create: Array.from({ length: 3 }).map((_, idx) => ({
             question: faker.lorem.sentence().replace(".", "?"),
@@ -186,7 +186,7 @@ async function main() {
           displayOrder: childIdx,
           metaTitle: `Top ${childName} Companies | Top Companies`,
           metaDescription: faker.lorem.sentence(),
-          robots: "index, follow",
+          robots: "noindex, nofollow",
           faqs: {
             create: Array.from({ length: 2 }).map((_, idx) => ({
               question: faker.lorem.sentence().replace(".", "?"),
@@ -227,7 +227,7 @@ async function main() {
       page: "HOME",
       metaTitle: "Top Companies - Find the Best Agencies & Developers",
       metaDescription: "Discover and compare top-rated software companies, agencies and developers.",
-      robots: "index, follow",
+      robots: "noindex, nofollow",
     },
     update: {},
   });
@@ -238,7 +238,7 @@ async function main() {
       page: "ABOUT",
       metaTitle: "About Top Companies",
       metaDescription: "Learn more about how Top Companies ranks and reviews software companies.",
-      robots: "index, follow",
+      robots: "noindex, nofollow",
     },
     update: {},
   });
