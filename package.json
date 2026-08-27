@@ -6,11 +6,11 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -n api,admin,web -c blue,magenta,green \"npm run dev -w apps/api\" \"npm run dev -w apps/admin\" \"npm run dev -w apps/web\"",
-    "dev:api": "npm run dev -w apps/api",
-    "dev:admin": "npm run dev -w apps/admin",
-    "dev:web": "npm run dev -w apps/web",
-    "build": "npm run build -w apps/api && npm run build -w apps/admin && npm run build -w apps/web",
+    "dev": "node init && concurrently -n api,admin,web -c blue,magenta,green \"npm run dev -w apps/api\" \"npm run dev -w apps/admin\" \"npm run dev -w apps/web\"",
+    "dev:api": "node init && npm run dev -w apps/api",
+    "dev:admin": "node init && npm run dev -w apps/admin",
+    "dev:web": "node init && npm run dev -w apps/web",
+    "build": "node init && npm run build -w apps/api && npm run build -w apps/admin && npm run build -w apps/web",
     "db:migrate": "npm run db:migrate -w apps/api",
     "db:seed": "npm run db:seed -w apps/api",
     "db:studio": "npm run db:studio -w apps/api"
