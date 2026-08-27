@@ -49,7 +49,7 @@ const DEFAULT_VALUES: SettingsFormInput = {
     socialLinks: { facebook: "", twitter: "", linkedin: "", instagram: "", youtube: "" },
     homeFaqs: [],
   },
-  seo: { home: EMPTY_SEO, about: EMPTY_SEO },
+  seo: { general: EMPTY_SEO, home: EMPTY_SEO, about: EMPTY_SEO },
 };
 
 export default function SettingsPage() {
@@ -82,6 +82,7 @@ export default function SettingsPage() {
           homeFaqs: Array.isArray(data.general.homeFaqs) ? data.general.homeFaqs : [],
         },
         seo: {
+          general: { ...EMPTY_SEO, ...data.seo.general },
           home: { ...EMPTY_SEO, ...data.seo.home },
           about: { ...EMPTY_SEO, ...data.seo.about },
         },
@@ -125,7 +126,7 @@ export default function SettingsPage() {
               <TabsTrigger value="about">About Page</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="general">
+            <TabsContent value="general" className="space-y-6">
               <Card>
                 <CardContent className="space-y-4 pt-6">
                   <FormField
@@ -227,6 +228,11 @@ export default function SettingsPage() {
                       ))}
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <SeoAccordion prefix="seo.general." title="General SEO" />
                 </CardContent>
               </Card>
             </TabsContent>

@@ -105,6 +105,7 @@ export interface HomeTopCompaniesData {
 export interface HomeData {
   general: { siteName: string | null; logo: string | null; socialLinks: SocialLinks | null };
   seo: SeoBlock;
+  generalSeo: SeoBlock;
   stats: HomeStats;
   featuredCategories: PublicCategorySummary[];
   featuredCompanies: PublicCompany[];
@@ -126,7 +127,7 @@ export interface AboutData {
     socialLinks: SocialLinks | null;
     homeFaqs: homeFaqData[];
   };
-  seo: SeoBlock;
+  seo: { home: SeoBlock; about: SeoBlock };
   aboutContent: string | null;
 }
 
@@ -134,6 +135,16 @@ export interface BlogCategory {
   id: number;
   name: string;
   slug: string;
+  description?: string | null;
+  image?: string | null;
+  status?: string;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  canonicalUrl?: string | null;
+  ogTitle?: string | null;
+  ogDescription?: string | null;
+  ogImage?: string | null;
+  robots?: string | null;
 }
 
 
@@ -160,7 +171,6 @@ export interface BlogListData {
   data: Blog[];
   meta: BlogMeta;
 }
-<<<<<<< HEAD
 export interface AllBlogData {
   blogs: BlogListData;
   latestBlogs: Blog[];
@@ -184,21 +194,4 @@ export interface BlogDetailData {
 export interface BlogDetailResponse {
   success: boolean;
   data: BlogDetailData;
-=======
-export interface LatestBlog {
-  id: number;
-  title: string;
-  content: string | null;
-  slug: string;
-  image: string | null;
-  status: string;
-  publishedAt: string | null;
-  blogCategoryId: number;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface AllBlogData {
-  blogs: BlogListData;
-  latestBlogs: LatestBlog[];
->>>>>>> fbf43db03196b231565d16fc6f0282a90afbae1a
 }

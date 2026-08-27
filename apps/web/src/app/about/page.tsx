@@ -8,7 +8,8 @@ import Image from "next/image";
 export async function generateMetadata(): Promise<Metadata> {
   const about = await getPublicAbout();
   return buildMetadata({
-    seo: about.seo,
+    // @ts-ignore - The API returns { home, about } for seo
+    seo: about.seo.about,
     path: "/about",
     fallbackTitle: "About - Top Companies",
     fallbackDescription: "How Top Companies reviews, scores and ranks software companies.",
