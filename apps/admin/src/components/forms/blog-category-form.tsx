@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { AuditFooter } from "@/components/shared/audit-footer";
 import { ImageUpload } from "@/components/shared/image-upload";
 import { SlugField } from "@/components/shared/slug-field";
+import { SeoAccordion } from "@/components/shared/seo-accordion";
 import { blogCategoryFormSchema, BlogCategoryFormInput, BlogCategoryFormValues } from "@/lib/schemas/blog-category";
 import { useCreateBlogCategory, useUpdateBlogCategory } from "@/lib/queries/blog-categories";
 import { applyFieldErrors } from "@/lib/apply-field-errors";
@@ -145,33 +146,10 @@ export function BlogCategoryForm({ category }: { category?: BlogCategory }) {
 
         <Card>
           <CardHeader>
-            <CardTitle>SEO Meta</CardTitle>
+            <CardTitle>SEO</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="metaTitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Meta Title</FormLabel>
-                  <FormControl>
-                    <Input {...field} value={field.value ?? ""} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="metaDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Meta Description</FormLabel>
-                  <FormControl>
-                    <Textarea rows={3} {...field} value={field.value ?? ""} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+          <CardContent>
+            <SeoAccordion defaultOpen={false} />
           </CardContent>
         </Card>
 

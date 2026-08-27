@@ -9,17 +9,45 @@ interface BlogDetailPageProps {
         slug: string;
     }>;
 }
+
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<import("next").Metadata> {
+    const { slug } = await params;
+    const blogData = await getBlogBySlug(slug).catch(() => null);
+
+    if (!blogData) {
+        return {};
+    }
+
+    const { blog } = blogData;
+
+    return (await import("@/lib/seo")).buildMetadata({
+        seo: {
+            metaTitle: blog.metaTitle ?? null,
+            metaDescription: blog.metaDescription ?? null,
+            canonicalUrl: blog.canonicalUrl ?? null,
+            ogTitle: blog.ogTitle ?? null,
+            ogDescription: blog.ogDescription ?? null,
+            ogImage: blog.ogImage ?? null,
+            robots: blog.robots ?? null,
+        },
+        path: `/blog/${slug}`,
+        fallbackTitle: blog.title,
+        fallbackDescription: blog.content ? blog.content.substring(0, 160).replace(/<[^>]*>?/gm, '') : "",
+        siteName: 'Top Companies',
+    });
+}
+
 export default async function BlogDetailPage({ params, }: BlogDetailPageProps) {
     const { slug } = await params;
 
     const blogData = await getBlogBySlug(slug);
 
-    const blog = blogData.blog;
-    const latestBlogs = blogData.latestBlogs.slice(0, 3);
-
-    if (!blog) {
+    if (!blogData) {
         notFound();
     }
+
+    const blog = blogData.blog;
+    const latestBlogs = blogData.latestBlogs.slice(0, 3);
 
     return (
         <>
