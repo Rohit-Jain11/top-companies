@@ -160,6 +160,7 @@ export interface BlogListData {
   data: Blog[];
   meta: BlogMeta;
 }
+<<<<<<< HEAD
 export interface AllBlogData {
   blogs: BlogListData;
   latestBlogs: Blog[];
@@ -183,4 +184,21 @@ export interface BlogDetailData {
 export interface BlogDetailResponse {
   success: boolean;
   data: BlogDetailData;
+=======
+export interface LatestBlog {
+  id: number;
+  title: string;
+  content: string | null;
+  slug: string;
+  image: string | null;
+  status: string;
+  publishedAt: string | null;
+  blogCategoryId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface AllBlogData {
+  blogs: BlogListData;
+  latestBlogs: LatestBlog[];
+>>>>>>> fbf43db03196b231565d16fc6f0282a90afbae1a
 }
