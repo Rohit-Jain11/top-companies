@@ -25,11 +25,17 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: "Top Companies",
-  description: "Discover and compare top-rated software companies, agencies and developers.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const home = await getHomeData().catch(() => null);
+  const globalRobots = home?.generalSeo?.robots ?? "index, follow";
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: "Top Companies",
+    description: "Discover and compare top-rated software companies, agencies and developers.",
+    robots: globalRobots,
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const home = await getHomeData().catch(() => null);

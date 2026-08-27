@@ -38,6 +38,7 @@ export const settingsFormSchema = z.object({
     homeFaqs: z.array(homeFaqSchema).default([]),
   }),
   seo: z.object({
+    general: seoSchema,
     home: seoSchema,
     about: seoSchema,
   }),
